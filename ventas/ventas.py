@@ -189,6 +189,26 @@ class CambiarCantidadPopup(Popup):
             self.ids.notificacion_no_valido.text= 'Cantidad no Valida'
 
 
+class PagarPopup(Popup):
+    def __init__(self, total, **kwargs):
+        super(PagarPopup, self).__init__(**kwargs)
+        self.total=total
+        self.ids.total.text= "{:.2f}".format(self.total)
+
+    def mostrar_cambio(self):
+        recibido= self.ids.recibido.text
+        try:
+            cambio= float(recibido).float(self.total)
+            if cambio >= 0:
+                self.ids.cambio.text=  "{:.2f}".format(cambio)
+                self.ids.boton_pagar.disabled= False
+            else:
+                self.ids.cambio.text= "Pago menor a la cantidad a Pagar"
+        except:
+            self.ids.cambio.text= "Pago no valido"
+
+
+
 
 class ProductoPorNombrePopup(Popup):
     def __init__(self,input_nombre, agregar_producto_callback,**kwargs):
@@ -275,10 +295,16 @@ class VentasWindow(BoxLayout):
         popup.mostrar_articulos()
 
     def pagar(self):
-        print ("Pagar")
+        if self.ids.rvs.data:
+            popup=PagarPopup(self.total)
+            popup.open()
+        else:
+            self.ids.notificacion_falla.tex='No hay Nada Que Pagar'
 
     def  nueva_compra(self):
         print('Nueva Compra')
+
+
 
 class VentasApp(App):
     def build(self):
