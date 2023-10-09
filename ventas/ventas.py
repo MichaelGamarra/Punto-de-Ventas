@@ -250,10 +250,10 @@ class VentasWindow(BoxLayout):
         self.ids.rvs.modificar_producto = self.modificar_producto
 
     def admin(self):
-        print("Admin Presionado")
+        print("Admin   Presionado")
     
     def signout(self):
-        print("signout Presionado")
+        print("signout   git Presionado")
 
     def eliminar_producto(self):
         menos_precio=self.ids.rvs.eliminar_articulo()
